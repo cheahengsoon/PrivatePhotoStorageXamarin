@@ -1,15 +1,39 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="PrivatePhotoStorageXamarin.Views.MainPage">
-  <StackLayout Padding="0,20,0,0">
-    <!--<Button Text="Take Picture" Command="{Binding TakePictureCommand}" />
-    <Button Text="Select Image from Picture Library" Command="{Binding SelectPictureCommand}" />
-    <Image Source="{Binding ImageSource}" VerticalOptions="CenterAndExpand" />
-    <Entry Text="{Binding VideoInfo}" VerticalOptions="CenterAndExpand" />-->
-    <Button x:Name="takePhoto" Text="Take photo" />
-    <Button x:Name="choosePhoto" Text="Choose photo" />
-    <Image x:Name="previewImage" />
+             x:Class="PrivatePhotoStorageXamarin.Views.MainPage"
+             Title ="Secure gallery">
+
+
+
+  <ContentPage.ToolbarItems>
+    <ToolbarItem Text="Add" Command="{Binding AddPictureCommand}"/>
+  </ContentPage.ToolbarItems>
+  <StackLayout>
+      <Image Source="{Binding Image}" VerticalOptions="CenterAndExpand" />
   </StackLayout>
-  
-</ContentPage>
+
+
+  <!--<ListView ItemsSource="{Binding Image}" ItemSelected="OnSelected">
+    <ListView.ItemTemplate>
+      <DataTemplate>
+        <ViewCell>
+          <ViewCell.ContextActions>
+            <MenuItem Clicked="OnDelete" CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" />
+          </ViewCell.ContextActions>
+          <Grid Padding="20, 0, 0, 0">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Text="{Binding Name}" VerticalOptions="Center"/>
+            <Label Grid.Row="0" Grid.Column="1" Text="{Binding LastName}" VerticalOptions="Center" />
+          </Grid>
+        </ViewCell>
+      </DataTemplate>
+    </ListView.ItemTemplate>
+  </ListView>-->
+  </ContentPage>

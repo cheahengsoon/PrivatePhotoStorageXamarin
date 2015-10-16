@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PrivatePhotoStorageXamarin.Views.MainPage">
+  <StackLayout Padding="0,20,0,0">
+    <!--<Button Text="Take Picture" Command="{Binding TakePictureCommand}" />
+    <Button Text="Select Image from Picture Library" Command="{Binding SelectPictureCommand}" />
+    <Image Source="{Binding ImageSource}" VerticalOptions="CenterAndExpand" />
+    <Entry Text="{Binding VideoInfo}" VerticalOptions="CenterAndExpand" />-->
+    <Button x:Name="takePhoto" Text="Take photo" />
+    <Button x:Name="choosePhoto" Text="Choose photo" />
+    <Image x:Name="previewImage" />
+  </StackLayout>
+  
+</ContentPage>

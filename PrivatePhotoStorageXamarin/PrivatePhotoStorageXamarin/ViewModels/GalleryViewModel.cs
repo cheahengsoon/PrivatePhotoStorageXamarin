@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using PrivatePhotoStorageXamarin.Annotations;
@@ -9,22 +10,26 @@ namespace PrivatePhotoStorageXamarin.ViewModels
 {
     public class GalleryViewModel:INotifyPropertyChanged
     {
-        private ImageSource _image;
+        private ImageSource _images;
         private IMediaPicker _mediaPicker = DependencyService.Get<IMediaPicker>();
 
 
         public GalleryViewModel()
         {
-              AddPictureCommand = new Command(AddPicture);   
+             AddPictureCommand = new Command(AddPicture);  
+             Images = new ObservableCollection<Image>();
         }
+
 
         public ICommand AddPictureCommand { get; private set; }
 
         public ImageSource Image
         {
-            get { return _image; }
-            set { _image = value; OnPropertyChanged(); }
+            get { return _images; }
+            set { _images = value; OnPropertyChanged(); }
         }
+
+        public ObservableCollection<Image> Images { get; set; }
 
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -40,7 +45,11 @@ namespace PrivatePhotoStorageXamarin.ViewModels
             {
                 file = await _mediaPicker.SelectPhotoAsync(new CameraMediaStorageOptions());
             }
-            Image = ImageSource.FromStream(() => file.Source);
+            Images.Add(new Image
+            {
+                Source = ImageSource.FromStream(() => file.Source)
+            });
+            
         }
 
         [NotifyPropertyChangedInvocator]

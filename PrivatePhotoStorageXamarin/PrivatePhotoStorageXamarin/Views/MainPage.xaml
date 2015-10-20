@@ -2,6 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PrivatePhotoStorageXamarin.Views.MainPage"
+             xmlns:mvvm="clr-namespace:XLabs.Forms.Mvvm;assembly=XLabs.Forms"
+			       xmlns:controls="clr-namespace:XLabs.Forms.Controls;assembly=XLabs.Forms"
              Title ="Secure gallery">
 
 
@@ -9,31 +11,22 @@
   <ContentPage.ToolbarItems>
     <ToolbarItem Text="Add" Command="{Binding AddPictureCommand}"/>
   </ContentPage.ToolbarItems>
-  <StackLayout>
-      <Image Source="{Binding Image}" VerticalOptions="CenterAndExpand" />
-  </StackLayout>
-
-
-  <!--<ListView ItemsSource="{Binding Image}" ItemSelected="OnSelected">
-    <ListView.ItemTemplate>
-      <DataTemplate>
-        <ViewCell>
-          <ViewCell.ContextActions>
-            <MenuItem Clicked="OnDelete" CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" />
-          </ViewCell.ContextActions>
-          <Grid Padding="20, 0, 0, 0">
-            <Grid.RowDefinitions>
-              <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="Auto" />
-              <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" Text="{Binding Name}" VerticalOptions="Center"/>
-            <Label Grid.Row="0" Grid.Column="1" Text="{Binding LastName}" VerticalOptions="Center" />
-          </Grid>
-        </ViewCell>
-      </DataTemplate>
-    </ListView.ItemTemplate>
-  </ListView>-->
+  <controls:GridView
+					x:Name="GrdView"
+					RowSpacing="5"
+					Padding="0"
+					ColumnSpacing = "0"
+					ItemWidth ="152"
+					ItemHeight = "100"
+					ItemsSource="{Binding Images}">
+			<controls:GridView.ItemTemplate>
+				<DataTemplate >
+					<ViewCell>
+						<ViewCell.View>
+							<Image Source="{Binding Source}" />
+						</ViewCell.View>
+					</ViewCell>
+				</DataTemplate>
+			</controls:GridView.ItemTemplate>
+		</controls:GridView>
   </ContentPage>

@@ -1,4 +1,7 @@
 ﻿using Foundation;
+using PrivatePhotoStorageXamarin.iOS.Service.Database;
+using PrivatePhotoStorageXamarin.iOS.Service.Images;
+using PrivatePhotoStorageXamarin.Services.Images;
 using UIKit;
 using Xamarin.Forms;
 using XLabs.Forms;
@@ -23,9 +26,21 @@ namespace PrivatePhotoStorageXamarin.iOS
         {
             Forms.Init();
             DependencyService.Register<MediaPicker>();
+            DependencyService.Register<SaveImage>();
+            DependencyService.Register<ImageService>();
+            DependencyService.Register<SQLiteTouch>();
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);
+        }
+
+        public async void SavePictureToDisk(string photoPath)
+        {
+            var someImage = new UIImage(photoPath);
+            someImage.SaveToPhotosAlbum((image, error) => {
+                var o = image;
+                //				Console.WriteLine ("Photo saved.");
+            });
         }
     }
 }

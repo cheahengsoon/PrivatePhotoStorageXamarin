@@ -39,8 +39,9 @@
     <Compile Include="Model\ImageItem.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\ImageService.cs" />
+    <Compile Include="Services\Images\ImageService.cs" />
     <Compile Include="Services\Database\ISQLite.cs" />
+    <Compile Include="Services\ISaveImage.cs" />
     <Compile Include="ViewModels\GalleryViewModel.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>

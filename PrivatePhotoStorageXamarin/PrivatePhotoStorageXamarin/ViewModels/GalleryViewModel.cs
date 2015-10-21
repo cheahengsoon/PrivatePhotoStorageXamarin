@@ -17,9 +17,10 @@ namespace PrivatePhotoStorageXamarin.ViewModels
         private IMediaPicker _mediaPicker;
 
 
-        public GalleryViewModel(StackLayout stack)
+        public GalleryViewModel()
         {
             AddPictureCommand = new Command(AddPicture);
+            DeletePictureCommand = new Command(DeletePicture);
             _imageSaver = DependencyService.Get<ISaveImage>();
             _imageService = DependencyService.Get<ImageService>();
             _mediaPicker = DependencyService.Get<IMediaPicker>();
@@ -28,10 +29,17 @@ namespace PrivatePhotoStorageXamarin.ViewModels
         }
 
         public ICommand AddPictureCommand { get; private set; }
+        public ICommand DeletePictureCommand { get; private set; }
 
         public ObservableCollection<ImageViewModel> Images { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private void DeletePicture()
+        {
+          _imageService.Delete(); 
+            Images.Clear();
+        }
 
         private void ShowImages()
         {
@@ -47,23 +55,42 @@ namespace PrivatePhotoStorageXamarin.ViewModels
 
         async void AddPicture()
         {
-            MediaFile file = null;
             if (_mediaPicker.IsCameraAvailable)
             {
-                file = await _mediaPicker.TakePhotoAsync(new CameraMediaStorageOptions());
-                AddImageToDB(file.Path);
+                {
+                    await _mediaPicker.TakePhotoAsync(new CameraMediaStorageOptions()).ContinueWith(t =>
+                    {
+                        if (t.IsCanceled)
+                        {
+                            return;
+                        }
+                        var file = t.Result;
+                        AddImageToDB(file.Path);
+                        Images.Add(new ImageViewModel { Source = ImageSource.FromStream(() => file.Source) });
+                    });
+                }
             }
             else
             {
-                file = await _mediaPicker.SelectPhotoAsync(new CameraMediaStorageOptions());
-                AddImageToDB(file.Path);
+                {
+                    await _mediaPicker.SelectPhotoAsync(new CameraMediaStorageOptions()).ContinueWith(t =>
+                    {
+                        if (t.IsCanceled)
+                        {
+                            return;
+                        }
+                        var file = t.Result;
+                        AddImageToDB(file.Path);
+                        Images.Add(new ImageViewModel { Source = ImageSource.FromStream(()=> file.Source) });
+                    });
+                }
             }
 
-            var image = new ImageViewModel
-            {
-                Source = ImageSource.FromStream(() => file.Source)
-            };
-            Images.Add(image);
+            //var image = new ImageViewModel
+            //{
+            //    Source = ImageSource.FromStream(() => file.Source)
+            //};
+            //Images.Add(image);
         }
 
         private void AddImageToDB(string path)

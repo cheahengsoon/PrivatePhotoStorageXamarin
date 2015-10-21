@@ -8,6 +8,7 @@
 
   <ContentPage.ToolbarItems>
     <ToolbarItem Text="Add" Command="{Binding AddPictureCommand}"/>
+    <ToolbarItem Text="Delete All" Command="{Binding DeletePictureCommand}"/>
   </ContentPage.ToolbarItems>
   <StackLayout x:Name="StackLayout" />
     <controls:GridView

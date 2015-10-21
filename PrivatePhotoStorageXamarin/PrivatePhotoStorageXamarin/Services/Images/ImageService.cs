@@ -10,7 +10,7 @@ namespace PrivatePhotoStorageXamarin.Services.Images
     public interface IImageService
     {
         void Add(string item);
-        void Delete(ImageItem item);
+        void Delete();
         IEnumerable<ImageItem> GetImages();
         int GetId();
     }
@@ -35,9 +35,9 @@ namespace PrivatePhotoStorageXamarin.Services.Images
             _connection.Insert(new ImageItem { Source = item });
         }
 
-        public void Delete(ImageItem item)
+        public void Delete()
         {
-            _connection.Delete(item);
+            _connection.DeleteAll<ImageItem>();
             _connection.UpdateAll(_connection.Table<ImageItem>());
         }
 

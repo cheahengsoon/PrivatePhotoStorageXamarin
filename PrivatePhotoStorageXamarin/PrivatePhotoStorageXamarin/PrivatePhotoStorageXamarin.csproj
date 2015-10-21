@@ -43,6 +43,7 @@
     <Compile Include="Services\Database\ISQLite.cs" />
     <Compile Include="Services\ISaveImage.cs" />
     <Compile Include="ViewModels\GalleryViewModel.cs" />
+    <Compile Include="ViewModels\ImageViewModel.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

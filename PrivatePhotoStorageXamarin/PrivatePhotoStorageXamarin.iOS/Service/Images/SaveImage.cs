@@ -25,7 +25,6 @@ namespace PrivatePhotoStorageXamarin.iOS.Service.Images
             if (imgData.Save(jpgFilename, false, out err))
             {
                 Console.WriteLine("saved as " + jpgFilename);
-
             }
             else
             {

@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using PrivatePhotoStorageXamarin.Annotations;
-using PrivatePhotoStorageXamarin.Model;
 using PrivatePhotoStorageXamarin.Services;
 using PrivatePhotoStorageXamarin.Services.Images;
 using Xamarin.Forms;
@@ -11,48 +10,39 @@ using XLabs.Platform.Services.Media;
 
 namespace PrivatePhotoStorageXamarin.ViewModels
 {
-    public class GalleryViewModel:INotifyPropertyChanged
+    public class GalleryViewModel : INotifyPropertyChanged
     {
-        private ImageSource _images;
         private ISaveImage _imageSaver;
-        private IImageService _imageService;
+        private ImageService _imageService;
         private IMediaPicker _mediaPicker;
 
 
-        public GalleryViewModel()
+        public GalleryViewModel(StackLayout stack)
         {
-             AddPictureCommand = new Command(AddPicture);
-             Images = new ObservableCollection<ImageItem>(_imageService.GetImages());
+            AddPictureCommand = new Command(AddPicture);
             _imageSaver = DependencyService.Get<ISaveImage>();
-            _imageService = DependencyService.Get<IImageService>();
+            _imageService = DependencyService.Get<ImageService>();
             _mediaPicker = DependencyService.Get<IMediaPicker>();
-
-            foreach (var image in Images)
-            {
-                AddImageView(image.Source);
-            }
-
+            Images = new ObservableCollection<ImageViewModel>();
+            ShowImages();
         }
 
         public ICommand AddPictureCommand { get; private set; }
 
-        public ImageSource Image
-        {
-            get { return _images; }
-            set { _images = value; OnPropertyChanged(); }
-        }
-
-        public ObservableCollection<ImageItem> Images { get; set; }
-
+        public ObservableCollection<ImageViewModel> Images { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void AddImageView(string path)
+        private void ShowImages()
         {
-            var img = new Image
+            foreach (var image in _imageService.GetImages())
             {
-                Source = ImageSource.FromFile(_imageSaver.GetPath() + "/" + path)
-            };
+                var path = image.Source;
+                Images.Add(new ImageViewModel
+                {
+                    Source = ImageSource.FromFile(_imageSaver.GetPath() + "/" + path)
+                });
+            }
         }
 
         async void AddPicture()
@@ -61,22 +51,25 @@ namespace PrivatePhotoStorageXamarin.ViewModels
             if (_mediaPicker.IsCameraAvailable)
             {
                 file = await _mediaPicker.TakePhotoAsync(new CameraMediaStorageOptions());
+                AddImageToDB(file.Path);
             }
             else
             {
                 file = await _mediaPicker.SelectPhotoAsync(new CameraMediaStorageOptions());
+                AddImageToDB(file.Path);
             }
-            //Images.Add(new Image
-            //{
-            //    Source = ImageSource.FromStream(() => file.Source)
-            //});
 
-            var newPath = _imageSaver.CopyPhotoTo(file.Path);
-            //Xamarin.Forms.Device.BeginInvokeOnMainThread(() => {AddImageView(newPath);
-            //});
+            var image = new ImageViewModel
+            {
+                Source = ImageSource.FromStream(() => file.Source)
+            };
+            Images.Add(image);
+        }
 
-            _imageService.Add(new ImageItem { Source = newPath });
-
+        private void AddImageToDB(string path)
+        {
+            var newPath = _imageSaver.CopyPhotoTo(path);
+            _imageService.Add(newPath);
         }
 
         [NotifyPropertyChangedInvocator]

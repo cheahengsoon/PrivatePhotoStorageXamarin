@@ -10,7 +10,7 @@ namespace PrivatePhotoStorageXamarin.Views
         public MainPage()
         {
             InitializeComponent();
-            _vm = new GalleryViewModel();
+            _vm = new GalleryViewModel(StackLayout);
             BindingContext = _vm;
             
         }

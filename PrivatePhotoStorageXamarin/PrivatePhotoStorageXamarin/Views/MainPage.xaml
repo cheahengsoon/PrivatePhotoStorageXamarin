@@ -6,12 +6,11 @@
 			       xmlns:controls="clr-namespace:XLabs.Forms.Controls;assembly=XLabs.Forms"
              Title ="Secure gallery">
 
-
-
   <ContentPage.ToolbarItems>
     <ToolbarItem Text="Add" Command="{Binding AddPictureCommand}"/>
   </ContentPage.ToolbarItems>
-  <controls:GridView
+  <StackLayout x:Name="StackLayout" />
+    <controls:GridView
 					x:Name="GrdView"
 					RowSpacing="5"
 					Padding="0"
@@ -19,14 +18,14 @@
 					ItemWidth ="152"
 					ItemHeight = "100"
 					ItemsSource="{Binding Images}">
-			<controls:GridView.ItemTemplate>
-				<DataTemplate >
-					<ViewCell>
-						<ViewCell.View>
-							<Image Source="{Binding Source}" />
-						</ViewCell.View>
-					</ViewCell>
-				</DataTemplate>
-			</controls:GridView.ItemTemplate>
-		</controls:GridView>
-  </ContentPage>
+    <controls:GridView.ItemTemplate>
+      <DataTemplate >
+        <ViewCell>
+          <ViewCell.View>
+           <Image Source="{Binding Source}"/>
+          </ViewCell.View>
+        </ViewCell>
+      </DataTemplate>
+    </controls:GridView.ItemTemplate>
+  </controls:GridView>
+</ContentPage>

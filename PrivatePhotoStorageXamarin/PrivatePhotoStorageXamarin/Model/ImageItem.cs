@@ -1,5 +1,6 @@
 ﻿using System;
 using SQLite;
+using Xamarin.Forms;
 
 namespace PrivatePhotoStorageXamarin.Model
 {
@@ -8,6 +9,7 @@ namespace PrivatePhotoStorageXamarin.Model
     {
         [PrimaryKey]
         private Guid ID { get; set; }
+
         public string Source { get; set; }
     }
 }

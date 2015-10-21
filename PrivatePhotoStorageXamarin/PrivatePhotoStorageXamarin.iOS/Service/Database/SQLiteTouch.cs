@@ -12,7 +12,7 @@ namespace PrivatePhotoStorageXamarin.iOS.Service.Database
     {
         public SQLiteConnection GetConnection()
         {
-            var sqliteFilename = "TodoSQLite.db3";
+            var sqliteFilename = "TodoSQLite2.db3";
             var documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal); // Documents folder
             var libraryPath = documentsPath;//Path.Combine(documentsPath, "..", "Library"); // Library folder
             var path = Path.Combine(libraryPath, sqliteFilename);

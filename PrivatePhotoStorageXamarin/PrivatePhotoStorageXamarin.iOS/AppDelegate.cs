@@ -24,11 +24,11 @@ namespace PrivatePhotoStorageXamarin.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-            Forms.Init();
             DependencyService.Register<MediaPicker>();
             DependencyService.Register<SaveImage>();
             DependencyService.Register<ImageService>();
             DependencyService.Register<SQLiteTouch>();
+            Forms.Init();
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);
@@ -39,8 +39,7 @@ namespace PrivatePhotoStorageXamarin.iOS
             var someImage = new UIImage(photoPath);
             someImage.SaveToPhotosAlbum((image, error) => {
                 var o = image;
-                //				Console.WriteLine ("Photo saved.");
-            });
+             });
         }
     }
 }

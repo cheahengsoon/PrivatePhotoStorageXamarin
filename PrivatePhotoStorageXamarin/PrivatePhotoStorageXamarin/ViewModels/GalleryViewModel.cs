@@ -43,6 +43,7 @@ namespace PrivatePhotoStorageXamarin.ViewModels
 
         private void ShowImages()
         {
+            Images.Clear();
             foreach (var image in _imageService.GetImages())
             {
                 var path = image.Source;
@@ -66,7 +67,6 @@ namespace PrivatePhotoStorageXamarin.ViewModels
                         }
                         var file = t.Result;
                         AddImageToDB(file.Path);
-                        Images.Add(new ImageViewModel { Source = ImageSource.FromStream(() => file.Source) });
                     });
                 }
             }
@@ -81,16 +81,10 @@ namespace PrivatePhotoStorageXamarin.ViewModels
                         }
                         var file = t.Result;
                         AddImageToDB(file.Path);
-                        Images.Add(new ImageViewModel { Source = ImageSource.FromStream(()=> file.Source) });
                     });
                 }
+                ShowImages();
             }
-
-            //var image = new ImageViewModel
-            //{
-            //    Source = ImageSource.FromStream(() => file.Source)
-            //};
-            //Images.Add(image);
         }
 
         private void AddImageToDB(string path)
